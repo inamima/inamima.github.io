@@ -2,145 +2,159 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>inamima - Portfolio</title>
+  <title>inamima</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="inamima's portfolio">
   <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      background-color: #f5f7f4;
-      color: #2f3e2f;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-      overflow: hidden;
+    :root{
+      --brand-bg:#f5f7f4;
+      --brand-fg:#2f3e2f;
+      --accent:#4b6043;
+      --accent-dark:#2f4731;
     }
 
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 0.2em;
+    *{box-sizing:border-box;}
+
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+      background:var(--brand-bg);
+      color:var(--brand-fg);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      text-align:center;
     }
 
-    .tagline {
-      font-size: 1.2rem;
-      color: #4b6043;
-      font-weight: 500;
-      margin-bottom: 1em;
+    h1{font-size:3rem;margin-bottom:.2em;}
+
+    .tagline{
+      font-size:1.2rem;
+      color:var(--accent);
+      font-weight:500;
+      margin-bottom:1.5em;
     }
 
-    .links {
-      display: flex;
-      gap: 20px;
-      margin-top: 1em;
-      flex-wrap: wrap;
-      justify-content: center;
+    nav{
+      display:flex;
+      gap:20px;
+      flex-wrap:wrap;
+      justify-content:center;
     }
 
-    .links a {
-      text-decoration: none;
-      color: #2f3e2f;
-      border: 2px solid #4b6043;
-      padding: 10px 20px;
-      border-radius: 30px;
-      transition: all 0.3s ease;
-      font-weight: bold;
+    /* 共通ボタン */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:170px;
+      padding:12px 24px;
+      font-size:1rem;
+      line-height:1.2;
+      font-weight:600;
+      font-family:inherit;
+      text-decoration:none;
+      color:var(--brand-fg);
+      border:2px solid var(--accent);
+      border-radius:30px;
+      background:#fff;
+      cursor:pointer;
+      transition:background-color .3s,color .3s;
+    }
+    .btn:hover,
+    .btn:focus-visible{
+      background:var(--accent-dark);
+      color:#fff;
+      outline:none;
     }
 
-    .links a:hover {
-      background-color: #2f4731;
-      color: #fff;
+    /* ドロップダウン */
+    .dropdown{position:relative;}
+    #toolLinks{
+      position:absolute;
+      top:calc(100% + .5rem);
+      left:50%;
+      transform:translateX(-50%);
+      display:flex;
+      flex-direction:column;
+      gap:.5rem;
+      padding:.5rem 0;
+      width:200px;
+      background:#fff;
+      border-radius:20px;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+      opacity:0;
+      visibility:hidden;
+      transition:opacity .3s,visibility .3s;
+      z-index:10;
+    }
+    #toolLinks.open{opacity:1;visibility:visible;}
+
+    #toolLinks a{
+      text-decoration:none;
+      padding:8px 16px;
+      border-radius:20px;
+      font-weight:bold;
+      color:var(--brand-fg);
+      transition:background-color .3s,color .3s;
+    }
+    #toolLinks a:hover,
+    #toolLinks a:focus-visible{
+      background:var(--accent-dark);
+      color:#fff;
+      outline:none;
     }
 
-    .dropdown {
-      margin-top: 2em;
-    }
-
-    .dropdown button {
-      background-color: #4b6043;
-      color: white;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .dropdown button:hover {
-      background-color: #2f4731;
-    }
-
-    .tool-links {
-      overflow: hidden;
-      max-height: 0;
-      transition: max-height 0.5s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 1em;
-    }
-
-    .tool-links.open {
-      max-height: 500px; /* 十分大きく設定しておけばOK */
-    }
-
-    .tool-links a {
-      text-decoration: none;
-      color: #2f3e2f;
-      border: 2px solid #4b6043;
-      padding: 8px 16px;
-      border-radius: 20px;
-      transition: all 0.3s ease;
-      font-weight: bold;
-      background-color: #ffffff;
-    }
-
-    .tool-links a:hover {
-      background-color: #2f4731;
-      color: #fff;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      .tagline {
-        font-size: 1rem;
-      }
-
-      .links {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .dropdown button {
-        width: 100%;
-      }
-
-      .tool-links a {
-        width: 80%;
-        margin: 0 auto;
-      }
+    /* モバイル */
+    @media(max-width:600px){
+      h1{font-size:2rem;}
+      .tagline{font-size:1rem;}
+      .btn{min-width:70%;}
+      nav{flex-direction:column;gap:15px;}
     }
   </style>
-  <script>
-    function toggleDropdown() {
-      const tools = document.getElementById("toolLinks");
-      tools.classList.toggle("open");
-    }
-  </script>
 </head>
 <body>
   <h1>inamima</h1>
-  <div class="tagline">Cloud Engineer</div>
+  <p class="tagline">Cloud Engineer</p>
 
-  <div class="links">
-    <a href="https://github.com/inamima" target="_blank">GitHub</a>
-  </div>
+  <nav aria-label="Primary">
+    <a href="https://github.com/inamima" class="btn" target="_blank" rel="noopener">GitHub</a>
+
+    <div class="dropdown">
+      <button id="toolToggle"
+              class="btn"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="toolLinks"
+              onclick="toggleDropdown()">
+        Tools
+      </button>
+      <div id="toolLinks" role="menu">
+        <a href="https://twitter-time-search.inamima.net/" target="_blank" rel="noopener" role="menuitem">Twitter Time Search</a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    function toggleDropdown(){
+      const links  = document.getElementById('toolLinks');
+      const toggle = document.getElementById('toolToggle');
+      const open   = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    }
+
+    /* 画面外クリックで閉じる */
+    document.addEventListener('click', e=>{
+      const links  = document.getElementById('toolLinks');
+      const toggle = document.getElementById('toolToggle');
+      if(!links.contains(e.target) && !toggle.contains(e.target)){
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded','false');
+      }
+    });
+  </script>
 </body>
 </html>
-
